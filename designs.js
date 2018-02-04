@@ -1,43 +1,38 @@
+// Global variables
+var canvas = $('#pixelCanvas');
+
 // Select color input
 var color = $('#colorPicker').css("color");
-console.log(color);
-// Select size input
-var height = $('#inputHeight').attr("value");
-var width = $('#inputWidth').attr("value");
-console.log(height + "  " + width); // Test
 
-// When size is submitted by the user, call makeGrid()
+canvas.on('click', 'td', function(){
+  $(this).css("background-color", color);
+})
 
-$('#submitButton').click(function(){
+$('input:submit').click(function(evt){
+  // Prevent the browser to refresh automatically
+  evt.preventDefault();
+  // Clear the potentially existing table
+  canvas.children().remove();
+  // Create and insert table
   makeGrid();
-
-  $('th').each(function(){
-  if (this.data('clicked')){
-    this.css('color', color);
-    }
-  });
 });
 
-// $('th').each(function(){
-//   if (this.data('clicked')){
-//     this.css('color', color);
-//   }
-// });
-
 function makeGrid() {
-  var tds = createThs(width); // String
-  console.log("ths: " + tds); // Test
-  var trs = createTrs(height, tds);
-  console.log("trs: " + trs); // Test
-
-  // var grid = $(trs);
-  $('#pixelCanvas').append(trs);
+  // Get input size
+  var height = $('#inputHeight').val();
+  var width = $('#inputWidth').val();
+  // Create a row template
+  var row = createThs(width);
+  // Create table
+  var table = createTable(height, row);
+  // Inset the created table to DOM
+  canvas.append(table);
 }
 
 // Helper method
 function createThs(width){
   var td, tds;
-  td = "<th></th>";
+  td = "<td></td>";
   tds = "";
   for (var x=0; x<width; x++){
     tds += td;
@@ -46,7 +41,7 @@ function createThs(width){
 }
 
 // Helper method
-function createTrs(height, tds){
+function createTable(height, tds){
   var tr, trs;
   tr = "<tr>" + tds + "</tr>";
   trs = "";

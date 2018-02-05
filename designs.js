@@ -1,13 +1,6 @@
 // Global variables
 var canvas = $('#pixelCanvas');
 
-// Select color input
-var color = $('#colorPicker').css("color");
-
-canvas.on('click', 'td', function(){
-  $(this).css("background-color", color);
-})
-
 $('input:submit').click(function(evt){
   // Prevent the browser to refresh automatically
   evt.preventDefault();
@@ -15,6 +8,8 @@ $('input:submit').click(function(evt){
   canvas.children().remove();
   // Create and insert table
   makeGrid();
+  makeColor();
+  cleanCanvas();
 });
 
 function makeGrid() {
@@ -51,3 +46,33 @@ function createTable(height, tds){
   return trs;
 }
 
+function makeColor(){
+  // Select color input
+  var color = $('#colorPicker').css("color");
+  // Change color if its value is changed
+  $('#colorPicker').on('change', function(){
+    color = $(this).val();
+  });
+  // Change <td>'s background color if it is clicked
+  canvas.on('click', 'td', function(){
+    currTd = $(this);
+    if (!currTd.hasClass("colored")){
+      currTd.css("background-color", color);
+      currTd.addClass("colored");
+    } else {
+      currTd.disColor();
+    }
+  });
+}
+
+// Helper method
+$.fn.disColor = function() {
+  this.removeClass("colored");
+  this.css("background-color", "transparent");
+};
+
+function cleanCanvas(){
+  $('button').click(function(){
+    $('td').disColor();
+  });
+}

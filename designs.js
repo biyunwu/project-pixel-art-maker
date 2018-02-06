@@ -1,78 +1,61 @@
-// Global variables
-var canvas = $('#pixelCanvas');
+$(function(){
+  // Create default canvas
+  makeGrid(10, 10);
 
-$('input:submit').click(function(evt){
-  // Prevent the browser to refresh automatically
-  evt.preventDefault();
-  // Clear the potentially existing table
-  canvas.children().remove();
-  // Create and insert table
-  makeGrid();
-  makeColor();
-  cleanCanvas();
-});
-
-function makeGrid() {
-  // Get input size
-  var height = $('#inputHeight').val();
-  var width = $('#inputWidth').val();
-  // Create a row template
-  var row = createThs(width);
-  // Create table
-  var table = createTable(height, row);
-  // Inset the created table to DOM
-  canvas.append(table);
-}
-
-// Helper method
-function createThs(width){
-  var td, tds;
-  td = "<td></td>";
-  tds = "";
-  for (var x=0; x<width; x++){
-    tds += td;
-  }
-  return tds;
-}
-
-// Helper method
-function createTable(height, tds){
-  var tr, trs;
-  tr = "<tr>" + tds + "</tr>";
-  trs = "";
-  for (var x=0; x<height; x++){
-    trs += tr;
-  }
-  return trs;
-}
-
-function makeColor(){
-  // Select color input
-  var color = $('#colorPicker').css("color");
-  // Change color if its value is changed
-  $('#colorPicker').on('change', function(){
-    color = $(this).val();
-  });
-  // Change <td>'s background color if it is clicked
-  canvas.on('click', 'td', function(){
-    currTd = $(this);
-    if (!currTd.hasClass("colored")){
-      currTd.css("background-color", color);
-      currTd.addClass("colored");
+  $('input:submit').click(function(evt){
+    // Prevent the browser to refresh automatically
+    evt.preventDefault();
+    // Clear the potentially existing table
+    $('#pixelCanvas').children().remove();
+    // Create and insert table
+    var height = $('#inputHeight').val();
+    var width = $('#inputWidth').val();
+    if(height>100 || width>100){
+      alert("Inuts should be between 0 and 100.");
     } else {
-      currTd.disColor();
+      makeGrid(height, width);
     }
   });
-}
 
-// Helper method
-$.fn.disColor = function() {
-  this.removeClass("colored");
-  this.css("background-color", "transparent");
-};
+  function makeGrid(height, width) {
+    // Create table
+    var table = createTable(height, width);
+    // Inset the created table to DOM
+    $('#pixelCanvas').append(table);
+  }
 
-function cleanCanvas(){
-  $('button').click(function(){
-    $('td').disColor();
+  // Helper method
+  function createTable(column, row){
+    var tds = createTds(row);
+    var tr = "<tr>" + tds + "</tr>";
+    var trs = "";
+    for (var x=0; x<column; x++){
+      trs += tr;
+    }
+    return trs;
+  }
+
+  // Helper method
+  function createTds(row){
+    var td = "<td></td>";
+    var tds = "";
+    for (var x=0; x<row; x++){
+      tds += td;
+    }
+    return tds;
+  }
+
+  // Change <td>'s background color if it is clicked
+  $('#pixelCanvas').on('click', 'td', function(){
+    if ($(this).css("background-color") === "rgba(0, 0, 0, 0)"){
+      $(this).css("background-color", $('#colorPicker').val());
+    } else {
+      $(this).css("background-color", "rgba(0, 0, 0, 0)");
+    }
   });
-}
+
+})
+
+
+
+

@@ -1,7 +1,7 @@
 $(function(){
     // Global variable
     let canvas = $('table');
-  
+
     // Create default canvas
     makeGrid(10, 10);
 
@@ -11,8 +11,7 @@ $(function(){
         // Clear the potentially existing table
         canvas.children().remove();
         // Create and insert table
-        const height = $('#inputHeight').val();
-        const width = $('#inputWidth').val();
+        const [height, width] = [$('#inputHeight').val(), $('#inputWidth').val()];
         makeGrid(height, width);
     });
 
@@ -25,18 +24,14 @@ $(function(){
 
     // Helper method
     function createTable(column, row){
-        let tds, trs;
-        tds = ("<td></td>").repeat(row);
-        trs = ("<tr>" + tds + "</tr>").repeat(column);
-        return trs;
+        let tds = ("<td></td>").repeat(row);
+        return ("<tr>" + tds + "</tr>").repeat(column);
     }
 
     // Change <td>'s background color if it is clicked
     canvas.on('click', 'td', function(){
-        if ($(this).css("background-color") === "rgba(0, 0, 0, 0)"){
-          $(this).css("background-color", $('#colorPicker').val());
-        } else {
-          $(this).css("background-color", "rgba(0, 0, 0, 0)");
-        }
+        ($(this).css("background-color") === "rgba(0, 0, 0, 0)")
+        ? $(this).css("background-color", $('#colorPicker').val())
+        : $(this).css("background-color", "rgba(0, 0, 0, 0)")
     });
 })

@@ -3,14 +3,12 @@
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [Contributing](#contributing)
+* [License](#License)
 
 ## Instructions
 
-To get started, open `designs.js` and start building out the app's functionality.
+The project's functionality is implemented by JavaScript and jQuery. And the style is going to be completed with Bootstrap.
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+## License
 
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+The **MIT** License
